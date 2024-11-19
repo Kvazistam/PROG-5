@@ -1,5 +1,6 @@
-from gen_fib import fib_elem_gen
+
 class Fib_checker:
+    # from gen_fib import fib_elem_gen
     def __init__(self, get_list: list) -> None:
         self.idx = 0
         self.list = get_list
@@ -17,6 +18,7 @@ class Fib_checker:
                 return res
             
     def is_fibb(self, num):
+        from gen_fib import fib_elem_gen
         fib_gen = fib_elem_gen()
         fib_elem = next(fib_gen)
         while num >= fib_elem:

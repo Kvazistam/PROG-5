@@ -40,17 +40,20 @@ class Currencies(metaclass=Singleton):
     def get_cur_dict(self):
         return self._cur_dict
     
-    def get_currencies(self):
+    def get_currencies(self, *names):
         res = self.parse_xml(self._url)
         if res:
             self.set_cur_dict(res)
+        if names:
+            new_res = [res[name] for name in names]
+            return new_res
         return res
         
     def parse_xml(self,url) -> dict:
         from xml.etree import ElementTree
         self.__cur_time = time.time()
         if self.__cur_time - self._time_pause <=0:
-            return None
+            return self.get_cur_dict()
         data = requests.get(self._url)
         tree = ElementTree.fromstring(data.content)
         tree_dict = {str(tree.tag) : tree.attrib}
@@ -62,6 +65,8 @@ class Currencies(metaclass=Singleton):
             else:
                 tree_dict[elem.attrib["ID"]] = {p['CharCode']:(p['Name'],(num, ost)) }
         return tree_dict
+    
+    
     def visualize_currencies(self):
         import matplotlib.pyplot as plt
 
@@ -84,6 +89,7 @@ class Currencies(metaclass=Singleton):
                 currencies.append(name)
         colors = plt.cm.viridis(np.linspace(0, 1, len(currencies)))
 
+
         plt.xticks(rotation=90, ha="right", fontsize=10)
         ax.bar(currencies, prices, label=names, color=colors)
         ax.set_ylabel('price of currencies in roubles')
@@ -94,5 +100,5 @@ class Currencies(metaclass=Singleton):
         plt.savefig(u'images/Currency_rate.jpg', format='jpg', bbox_inches='tight')
 
 a = Currencies()
-a.get_currencies()
+print(a.get_currencies('R01010', 'R01060', 'R01270', 'R01670'))
 a.visualize_currencies()
