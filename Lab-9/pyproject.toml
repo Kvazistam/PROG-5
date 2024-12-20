@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "lab-9"
+version = "0.1.0"
+description = "Lab-9 for PROG-5"
+authors = ["Nikita Makoveev <nikitamakoveev564@gmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.111.0"
+passlib = "^1.7.4"
+pyjwt = "^2.8.0"
+pytest = "^8.2.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
